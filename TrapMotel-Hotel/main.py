@@ -15,10 +15,9 @@ small_font = pygame.font.Font(None, 36)
 button_font = pygame.font.Font(None, 48)
 
 # menu options, and the message shown on each screen they open
-OPTIONS = ["NEW GAME", "CONTINUE", "SETTINGS", "LEAVE GAME"]
+OPTIONS = ["START GAME", "SETTINGS", "LEAVE GAME"]
 SCREENS = {
-    "NEW GAME": "Welcome to the Trap Motel-Hotel.......",
-    "CONTINUE": "No saved games found yet.",
+    "START GAME": "Welcome to the Trap Motel-Hotel.......",
     "SETTINGS": "Settings coming soon.",
 }
 
