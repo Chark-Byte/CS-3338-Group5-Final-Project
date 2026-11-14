@@ -1,4 +1,5 @@
 import pygame
+import settings_screen
 
 pygame.init()
 W, H = 1280, 720
@@ -14,11 +15,13 @@ title_font = pygame.font.Font(None, 72)
 small_font = pygame.font.Font(None, 36)
 button_font = pygame.font.Font(None, 48)
 
+# settings the player can change (shared with the settings screen)
+options = {"volume": 5, "sound": True}
+
 # menu options, and the message shown on each screen they open
 OPTIONS = ["START GAME", "SETTINGS", "LEAVE GAME"]
 SCREENS = {
     "START GAME": "Welcome to the Trap Motel-Hotel.......",
-    "SETTINGS": "Settings coming soon.",
 }
 
 
@@ -61,12 +64,17 @@ while running:
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         choice = OPTIONS[i]
 
+    # ---------- act on the choice (this block is NOT inside the event loop) ----------
     if choice == "LEAVE GAME":
         running = False
+    elif choice == "SETTINGS":
+        # hand control to the settings screen; it returns when the player goes back
+        if settings_screen.run(screen, options) == "quit":
+            running = False
     elif choice:
         state = choice
 
-    # ---------- main menu drawing ----------
+    # ---------- drawing ----------
     screen.fill((0, 0, 0))
 
     if state == "MENU":
@@ -79,7 +87,7 @@ while running:
             rects.append(rect.inflate(60, 20))
         draw_text("UP / DOWN to move    ENTER to select", small_font, GRAY, H - 50)
     else:
-        draw_text(SCREENS[state], button_font, WHITE, H // 2)
+        draw_text(SCREENS.get(state, "Coming soon..."), button_font, WHITE, H // 2)
         draw_text("Press ESC to go back to the menu", small_font, GRAY, H - 50)
 
     pygame.display.flip()
